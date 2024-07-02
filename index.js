@@ -22,5 +22,5 @@ app.use(passport.initialize());
 
 require('./routes/authRoutes')(app); //require returns a function
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 2000;
  app.listen(PORT); 
