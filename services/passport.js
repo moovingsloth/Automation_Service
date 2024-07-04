@@ -22,19 +22,17 @@ passport.use(new GoogleStrategy(
     callbackURL: '/auth/google/callback',
     proxy: true
     }, 
-    (accessToken, refreshToken, profile, done) => {
+    async (accessToken, refreshToken, profile, done) => {
 
-        User.findOne({googleId: profile.id}) //check if we already have a record 
-        .then((existingUser ) => {
-            if(existingUser){ //if existing user exists
-                //we already have user record with a given profile ID
-                done(null, existingUser);
-            }else{
-                 //we don't have user record with a given profile ID, make a new record 
-                 new User({googleId: profile.id }).save() //new instance of user -> save to database
-                 .then(user => done(null, user))
-            }
-        })
+        const existingUser = await User.findOne({googleId: profile.id}) //check if we already have a record 
+        if(existingUser){ //if existing user exists
+            //we already have user record with a given profile ID
+            return  done(null, existingUser);
+        }
+        //we don't have user record with a given profile ID, make a new record 
+        const user =   await new User({googleId: profile.id }).save() //new instance of user -> save to database
+        done(null, user); 
     }
-)
-);//create instance of the GooglePassportStrategy ->  aware passport for user to use
+  )
+);//create instance of the  GooglePassportStrategy ->  aware passport for user to use
+      
