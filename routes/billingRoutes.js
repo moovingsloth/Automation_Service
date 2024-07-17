@@ -9,7 +9,10 @@ module.exports = app => {
             description: '$5 for 5 credits',
             source: req.body.id
         });
+        
+        req.user.credits += 5; //doesn't save changes to database
+        const user = await req.user.save();
 
-        console.log(charge);
+        res.send(user);
     });
 };
