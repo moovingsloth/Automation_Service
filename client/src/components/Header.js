@@ -31,7 +31,7 @@
                         to={this.props.auth ? '/surveys' : '/'} 
                         className = "left brand-logo"
                         >
-                            Emaily
+                            Emaily!
                          </Link>
                         <ul className = "right">
                             {this.renderContent()}
