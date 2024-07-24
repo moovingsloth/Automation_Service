@@ -4,7 +4,7 @@ const keys = require('../config/keys');
 class Mailer {
   constructor({ subject, recipients }, content) {
     this.mg = mailgun({ apiKey: keys.mailGunKey, domain: keys.mailGunDomain });
-    this.from = "Excited User sandbox9b35be02824e42db92f85a42dd985017.mailgun.org";
+    this.from = 'REPLACE_WITH_YOUR_AUTHORIZED_SENDER';
     this.subject = subject;
     this.body = content;
     this.recipients = this.formatAddresses(recipients);
@@ -32,10 +32,14 @@ class Mailer {
       ...this.trackingSettings
     };
 
-    const body = await this.mg.messages().send(data);
-    return body;
-    
-}
+    try {
+      const body = await this.mg.messages().send(data);
+      return body;
+    } catch (error) {
+      console.error('Error sending email:', error);
+      throw error;
+    }
+  }
 }
 
 module.exports = Mailer;
