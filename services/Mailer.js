@@ -32,14 +32,10 @@ class Mailer {
       ...this.trackingSettings
     };
 
-    try {
-      const body = await this.mg.messages().send(data);
-      return body;
-    } catch (error) {
-      console.error('Error sending email:', error);
-      throw error;
-    }
-  }
+    const body = await this.mg.messages().send(data);
+    return body;
+    
+}
 }
 
 module.exports = Mailer;
