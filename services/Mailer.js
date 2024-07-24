@@ -1,15 +1,45 @@
-const formData = require('form-data');
-  const Mailgun = require('mailgun.js');
-  const mailgun = new Mailgun(formData);
-  const mailgunKey = require('../config/keys');
-  const mg = mailgun.client({username: 'api', mailgunKey});
-  
-  module.exports = mg.messages.create('sandbox9b35be02824e42db92f85a42dd985017.mailgun.org', {
-  	from: "Excited User <mailgun@sandbox9b35be02824e42db92f85a42dd985017.mailgun.org>",
-  	to: ["test@example.com"],
-  	subject: "Hello",
-  	text: "Testing some Mailgun awesomeness!",
-  	html: "<h1>Testing some Mailgun awesomeness!</h1>"
-  })
-  .then(msg => console.log(msg)) // logs response data
-  .catch(err => console.log(err)); // logs any error
+const mailgun = require('mailgun-js');
+const keys = require('../config/keys');
+
+class Mailer {
+  constructor({ subject, recipients }, content) {
+    this.mg = mailgun({ apiKey: keys.mailGunKey, domain: keys.mailGunDomain });
+    this.from = 'REPLACE_WITH_YOUR_AUTHORIZED_SENDER';
+    this.subject = subject;
+    this.body = content;
+    this.recipients = this.formatAddresses(recipients);
+  }
+
+  formatAddresses(recipients) {
+    return recipients.map(({ email }) => email);
+  }
+
+  addClickTracking() {
+    // Mailgun 자동 클릭 트래킹 설정
+    this.trackingSettings = {
+      'o:tracking': true,
+      'o:tracking-clicks': true,
+    };
+  }
+
+  async send() {
+    this.addClickTracking();
+    const data = {
+      from: this.from,
+      to: this.recipients.join(','),
+      subject: this.subject,
+      html: this.body,
+      ...this.trackingSettings
+    };
+
+    try {
+      const body = await this.mg.messages().send(data);
+      return body;
+    } catch (error) {
+      console.error('Error sending email:', error);
+      throw error;
+    }
+  }
+}
+
+module.exports = Mailer;
