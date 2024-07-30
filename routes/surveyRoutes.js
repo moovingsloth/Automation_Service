@@ -13,24 +13,17 @@ module.exports = (app) => {
   });
 
   app.post('/api/surveys', requireLogin, requireCredits, async (req, res) => {
-    const { subject, body, recipients } = req.body;
+    // const { subject, body, recipients } = req.body;
 
-    try{
       await mg.messages.create(keys.MAIL_GUN_DOMAIN, {
         from: "lee dongown <dlehddnjs245tommy@gmail.com>",
-        to: recipients,
-        subject,
-        _user: req.user.id,
-        dateSent: Date.now(),
+        to: "dlehddnjs245@naver.com",
         text: "Testing some Mailgun awesomeness!",
-        html: surveyTemplate(body)
+        html: "<h1>Testing some Mailgun awesomeness!</h1>"
       })
       req.user.credits -= 1;
       const user = await req.user.save();
-    }
-    catch (err) {
-      res.status(422).send(err);
-    }
+      res.send(user);
     /*
     const survey = new Survey({
       title,
@@ -50,8 +43,6 @@ module.exports = (app) => {
       await survey.save();
       req.user.credits -= 1;
       const user = await req.user.save();
-
-      res.send(user);
     }*/
   });
 };
