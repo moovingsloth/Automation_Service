@@ -1,48 +1,44 @@
 const mongoose = require('mongoose');
 const requireLogin = require('../middlewares/requireLogin');
 const requireCredits = require('../middlewares/requireCredits');
+const Mailer = require('../services/Mailer');
 const surveyTemplate = require('../services/emailTemplates/surveyTemplate');
-const mg = require('./mailgun');
+const formData = require('form-data');
+const Mailgun = require('mailgun.js');
+const mailgun = new Mailgun(formData);
 const keys = require('../config/keys');
+const mg = mailgun.client({ username: 'api', key: keys.mailGunKey });
 
 const Survey = mongoose.model('surveys');
 
-module.exports = (app) => {
-  app.get('/api/surveys/thanks', (req, res) => {
-    res.send('Thanks for voting!');
-  });
+module.exports = app => {
+    app.post('/api/surveys', requireLogin, requireCredits, async (req, res) => {
+        const { title, subject, body, recipients } = req.body;
 
-  app.post('/api/surveys', requireLogin, requireCredits, async (req, res) => {
-    // const { subject, body, recipients } = req.body;
+        const survey = new Survey({
+            title,
+            subject,
+            body,
+            recipients: recipients.split(',').map(email => ({ email: email.trim() })),
+            _user: req.user.id,
+            dateSent: Date.now()
+        });
 
-      await mg.messages.create(keys.MAIL_GUN_DOMAIN, {
-        from: "lee dongown <dlehddnjs245tommy@gmail.com>",
-        to: "dlehddnjs245@naver.com",
-        text: "Testing some Mailgun awesomeness!",
-        html: "<h1>Testing some Mailgun awesomeness!</h1>"
-      })
-      req.user.credits -= 1;
-      const user = await req.user.save();
-      res.send(user);
-    /*
-    const survey = new Survey({
-      title,
-      subject,
-      body,
-      recipients: recipients
-        .split(',')
-        .map((email) => ({ email: email.trim() })),
-      _user: req.user.id,
-      dateSent: Date.now(),
+        const mailer = new Mailer(survey, surveyTemplate(survey));
+
+        try {
+            const response = await mg.messages.create(keys.mailGunDomain, {
+                from: mailer.from,
+                to: mailer.to,
+                subject: mailer.subject,
+                text: mailer.text,
+                html: mailer.html
+            });
+            console.log(response);
+            res.send(response);
+        } catch (err) {
+            console.error(err);
+            res.status(422).send(err);
+        }
     });
-
-    // Great place to send an email!
-    const mailer = new Mailer(survey, surveyTemplate(survey));
-
-    try {
-      await survey.save();
-      req.user.credits -= 1;
-      const user = await req.user.save();
-    }*/
-  });
 };
