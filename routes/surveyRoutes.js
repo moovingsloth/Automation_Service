@@ -12,7 +12,7 @@ const surveyTemplate = require('../services/emailTemplates/surveyTemplate');
 const Survey = mongoose.model('surveys');
 
 module.exports = app => {
-  app.post('/api/surveys', async (req, res) => {
+  app.post('/api/surveys', requireLogin, requireCredits, async (req, res) => {
     const { title, subject, body, recipients } = req.body;
 
     const survey = new Survey({
@@ -34,5 +34,10 @@ module.exports = app => {
       console.error(err); // 오류 로깅
       res.status(500).send({ error: err.message }); // 클라이언트에게 오류 응답 전송
     });
+    await survey.save();
+      req.user.credits -= 1;
+      const user = await req.user.save();
+
+      res.send(user);
   });
-};
+};  
