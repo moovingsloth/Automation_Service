@@ -16,7 +16,7 @@ module.exports = app => {
         res.send('Thanks for voting!');
     });
 
-    app.post('/api/surveys', requireLogin, requireCredits, async (req, res) => {
+    app.post('/api/surveys', requireLogin, requireCredits, (req, res) => {
         const { title, subject, body, recipients } = req.body;
 
         // 설문 조사 객체 생성
@@ -32,8 +32,9 @@ module.exports = app => {
 
     try {
       // 이메일 전송
-      await mg.messages.create(keys.mailGunDomain, mailer);
-      await survey.save();
+      mg.messages.create(keys.mailGunDomain, mailer);
+      survey.save();
+      req.user.credits -= 1;
       res.status(200);
     } catch (err) {
       console.error(err); // 오류 로깅
