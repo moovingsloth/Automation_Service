@@ -16,7 +16,7 @@ module.exports = app => {
         res.send('Thanks for voting!');
     });
 
-    app.post('/api/surveys', requireLogin, requireCredits, (req, res) => {
+    app.post('/api/surveys', requireLogin, requireCredits, async (req, res) => {
         const { title, subject, body, recipients } = req.body;
 
         // 설문 조사 객체 생성
@@ -32,10 +32,12 @@ module.exports = app => {
 
     try {
       // 이메일 전송
-      mg.messages.create(keys.mailGunDomain, mailer);
-      survey.save();
-      req.user.credits -= 1;
+      await mg.messages.create(keys.mailGunDomain, mailer);
       res.status(200);
+      await survey.save();
+      req.user.credits -= 1;
+      const user = await req.user.save();
+      res.send(user);
     } catch (err) {
       console.error(err); // 오류 로깅
       res.status(500).send({ error: err.message }); // 클라이언트에게 오류 응답 전송
