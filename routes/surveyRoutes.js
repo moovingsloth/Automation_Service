@@ -34,8 +34,6 @@ module.exports = app => {
       // 이메일 전송
       await mg.messages.create(keys.mailGunDomain, mailer);
       await survey.save();
-      req.user.credits -= 1;
-      const user = await req.user.save();
       res.status(200);
     } catch (err) {
       console.error(err); // 오류 로깅
