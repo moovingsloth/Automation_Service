@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const requireLogin = require('../middlewares/requireLogin');
+const requireCredits = require('../middlewares/requireCredits');
 const Mailgun = require('mailgun.js');
 const formData = require('form-data');
 const keys = require('../config/keys');
