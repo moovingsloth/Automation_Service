@@ -13,9 +13,9 @@ export const handleToken = token => async dispatch => {
   dispatch({ type: FETCH_USER, payload: res.data });
 };
 
-export const submitSurvey = (values, navigate) => async dispatch => { // history 대신 navigate
+export const submitSurvey = (values, history) => async dispatch => {
   const res = await axios.post('/api/surveys', values);
 
-  navigate('/surveys'); // history.push 대신 navigate 사용
+  history.push('/surveys');
   dispatch({ type: FETCH_USER, payload: res.data });
 };
