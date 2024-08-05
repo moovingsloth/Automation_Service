@@ -1,6 +1,5 @@
-# Node-with-React
-해당 코드는 강의 https://www.udemy.com/node-with-react-fullstack-web-development/learn/v4/content를 기반으로 작성되었습니다.
 # Node-with-React Full-Stack Web Application
+해당 코드는 강의 https://www.udemy.com/node-with-react-fullstack-web-development/learn/v4/content를 기반으로 작성되었습니다.
 
 ## Table of Contents
 
@@ -13,9 +12,11 @@
 - [Contributing](#contributing)
 - [License](#license)
 
+
+
 ## Project Overview
 
-This application allows users to create and send surveys to a list of recipients. The recipients can respond to the surveys, and the responses are tracked and displayed in the user's dashboard.
+이 애플리케이션은 사용자가 설문 조사를 작성하고 수신자 목록에 전송할 수 있도록 합니다. 
 
 ## Tech Stack
 
@@ -33,6 +34,14 @@ This application allows users to create and send surveys to a list of recipients
 - **MongoDB**: A NoSQL database for storing survey data.
 - **Mongoose**: An ODM (Object Data Modeling) library for MongoDB and Node.js.
 - **Mailgun**: An email automation service for sending survey emails.
+
+### Other Tools and Libraries
+
+- **Passport**: Authentication middleware for Node.js.
+- **Lodash**: A modern JavaScript utility library delivering modularity, performance, and extras.
+- **Concurrently**: Run multiple commands concurrently.
+- **Nodemon**: A utility that monitors for any changes in your source and automatically restarts your server.
+
 
 
 ## Progress
