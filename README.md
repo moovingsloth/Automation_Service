@@ -4,6 +4,7 @@
 
 - [Project Overview](#project-overview)
 - [Tech Stack](#tech-stack)
+- [Details](#details)
 
 
 
@@ -35,10 +36,9 @@
 - **Concurrently**: Run multiple commands concurrently.
 - **Nodemon**: A utility that monitors for any changes in your source and automatically restarts your server.
 
-
-
-## Progress
-강의를 바탕으로 코드를 작성했으나, mail 발송 api와 UI는 조금 더 실용적으로 변형하여 구현하였습니다.
+## Details & Progress
+- USER가 로그인 하지 않고, 설문조사를 이용하지 않는 경우, 제한하기 위해 requireLogin(미들웨어 함수)를 구현하여 라우트에 접근하는 것을 제한했습니다.
+- 강의에서는 결제 API로 stripe, 메일 발송 API로 sendgrid를 사용하지만, 한국의 사용자에게 맞춰 
  
 
 
