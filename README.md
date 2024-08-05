@@ -4,12 +4,6 @@
 
 - [Project Overview](#project-overview)
 - [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [Getting Started](#getting-started)
-- [Available Scripts](#available-scripts)
-- [Deployment](#deployment)
-- [Contributing](#contributing)
-- [License](#license)
 
 
 
