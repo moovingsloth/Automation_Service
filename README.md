@@ -1,5 +1,4 @@
 # Node-with-React Full-Stack Web Application
-해당 코드는 강의 https://www.udemy.com/node-with-react-fullstack-web-development/learn/v4/content를 기반으로 작성되었습니다.
 
 ## Table of Contents
 
@@ -46,6 +45,10 @@
 
 ## Progress
 강의를 바탕으로 코드를 작성했으나, mail 발송 api와 UI는 조금 더 실용적으로 변형하여 구현하였습니다.
+
+
+
+해당 코드는 강의 https://www.udemy.com/node-with-react-fullstack-web-development/learn/v4/content를 기반으로 작성되었습니다.
 
 **NOTE**: 메일을 발송하는 기능은 실제로 작동합니다!
 
