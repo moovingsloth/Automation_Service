@@ -38,7 +38,7 @@
 
 ## Details & Progress
 - USER가 로그인 하지 않고, 설문조사를 이용하지 않는 경우, 제한하기 위해 requireLogin(미들웨어 함수)를 구현하여 라우트에 접근하는 것을 제한했습니다.
-- 강의에서는 결제 API로 stripe, 메일 발송 API로 sendgrid를 사용하지만, 한국의 사용자에게 맞춰 
+- 강의에서는 결제 API로 stripe, 메일 발송 API로 sendgrid를 사용하지만, 한국의 사용자에게 맞춰 mailgun을 사용했습니다.
  
 
 
